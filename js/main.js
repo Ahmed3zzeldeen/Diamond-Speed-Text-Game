@@ -7,12 +7,15 @@ const words = [
     "Github",
     "Country",
     "Testing",
-    "Programing",
+    "Programming",
     "Javascript",
     "Youtube",
     "Linkedin",
     "Leetcode",
 ];
+// Array Of Words by Levels
+
+
 
 // Setting Levels
 const lvls = {
@@ -21,14 +24,18 @@ const lvls = {
     "Hard": 3 
 };
 
-// Default Level
-let defaultLevelName ="Normal"; //Change Level From Here
-let defaultLevelSeconds = lvls[defaultLevelName];
+
+// Sound Effects
+const shortSuccess = new Audio('./sound-effects/short-success.mp3');
+const noLuckTooBad = new Audio('./sound-effects/no-luck-too-bad.mp3');
+const longSuccess = new Audio('./sound-effects/success-fanfare.mp3');
+const shortNotification = new Audio('./sound-effects/notification-sound.mp3');
 
 // Catch Selectors
 
+let gameName = document.querySelector(".name");
 let startButton = document.querySelector(".start");
-let lvlNameSpan = document.querySelector(".massage .lvl");
+let selectLevel = document.querySelector("#select-lvl");
 let secondsSpan = document.querySelector(".massage .seconds");
 let theWord = document.querySelector(".the-word");
 let upcomingWords = document.querySelector(".upcoming-words");
@@ -36,20 +43,35 @@ let input = document.querySelector(".input");
 let timeLeftSpan = document.querySelector(".time span");
 let scoreGot = document.querySelector(".score .got");
 let scoreTotal = document.querySelector(".score .total");
-let game = document.querySelector(".game");
+let container = document.querySelector(".container");
 let finish = document.querySelector(".finish");
 let finishMassageResult = document.querySelector(".finish p .result");
 let finishMassageGot = document.querySelector(".finish p .got");
 let finishMassageTotal = document.querySelector(".finish p .total");
 let finishMassageCon = document.querySelector(".finish p .con-mss");
+let playAgainBtn = document.querySelector(".finish .play-again");
 
+
+
+// Default Level
+let defaultLevelName = selectLevel.value ; //Change Level From Here
+let defaultLevelSeconds = lvls[defaultLevelName];
 
 // Setting Level Name + Seconds + Score
 
-lvlNameSpan.innerHTML = defaultLevelName;
 secondsSpan.innerHTML = defaultLevelSeconds;
 timeLeftSpan.innerHTML = defaultLevelSeconds;
 scoreTotal.innerHTML = words.length;
+
+
+selectLevel.addEventListener("change" ,  changeLevel );
+
+function changeLevel  () {
+    defaultLevelName = selectLevel.value ;
+    defaultLevelSeconds = lvls[defaultLevelName];
+    timeLeftSpan.innerHTML = defaultLevelSeconds;    
+    secondsSpan.innerHTML = defaultLevelSeconds;
+}
 
 // Disable Paste Event 
 input.onpaste = function () {
@@ -57,7 +79,7 @@ input.onpaste = function () {
 }
 
 // Start Game 
-startButton.onclick = function () {
+startButton.onclick = function startGame() {
     this.remove();
     input.focus();
     // Generate Word Function
@@ -97,61 +119,88 @@ function startPlay() {
             // Compare Words 
             if (theWord.innerHTML.toLowerCase() === input.value.toLowerCase()) {
                 //Empty Input Field
-                input.value = ""
+                input.value = "";
                 // Increase Score
                 scoreGot.innerHTML++;
+                shortSuccess.play();
                 if (words.length > 0 ){
                     // Call Generate Word Function
                     genWords();
                 }
+                else if (scoreGot.innerHTML == scoreTotal.innerHTML ){
+                    let span = document.createElement("span");
+                    let spanText = document.createTextNode("Congratulations 💙💥");
+                    let span2 = document.createElement("span");
+                    let spanText2 = document.createTextNode("Fast. Try Again To More Win");
+                    span.className = "good";
+                    createEndMass(span , spanText , span2 , spanText2 );
+                    playAgainBtn.onclick = function (){
+                        location.reload();
+                    }
+                    shortNotification.play();
+                    longSuccess.play();
+                }
                 else {
-                let span = document.createElement("span");
-                span.className = "good";
-                let spanText = document.createTextNode("Congratulations 💙💥");
-                span.appendChild(spanText);
-                finishMassageResult.appendChild(span);
-                let span2 = document.createElement("span");
-                let spanText2 = document.createTextNode("Fast. Try Again To More Win");
-                span2.appendChild(spanText2);
-                finishMassageCon.appendChild(span2);
-                finishMassageGot.innerHTML = scoreGot.innerHTML;
-                finishMassageTotal.innerHTML = scoreTotal.innerHTML;
-                finish.style = "display:flex;";
-                game.style = "opacity: 0.3;";
+                    let span = document.createElement("span");
+                    let spanText = document.createTextNode("Good You Can Improve. ");
+                    let span2 = document.createElement("span");
+                    let spanText2 = document.createTextNode("Close .Try Again ");
+                    span.className = "good";
+                    createEndMass(span , spanText , span2 , spanText2 );
+                    playAgainBtn.onclick = function (){
+                        location.reload();
+                    }
+                    shortNotification.play();
                 }
             } else {
                 if (scoreGot.innerHTML === "0") {
-                let span = document.createElement("span");
-                span.className = "bad";
-                let spanText = document.createTextNode("Opps ..");
-                span.appendChild(spanText);
-                finishMassageResult.appendChild(span);
-                let span2 = document.createElement("span");
-                let spanText2 = document.createTextNode("Slow. Pls Try Again ");
-                span2.appendChild(spanText2);
-                finishMassageCon.appendChild(span2);
-                finishMassageGot.innerHTML = scoreGot.innerHTML;
-                finishMassageTotal.innerHTML = scoreTotal.innerHTML;
-                finish.style = "display:flex;";
-                game.style = "opacity: 0.3;";
+                    let span = document.createElement("span");
+                    let spanText = document.createTextNode("Opps ..");
+                    let span2 = document.createElement("span");
+                    let spanText2 = document.createTextNode("Slow. Pls Try Again ");
+                    span.className = "bad";
+                    createEndMass(span , spanText , span2 , spanText2 );
+                    noLuckTooBad.play();
+                    shortNotification.play();
                 }
-
                 if (scoreGot.innerHTML > "0") {
-                let span = document.createElement("span");
-                span.className = "good";
-                let spanText = document.createTextNode("Good You Can Improve. ");
-                span.appendChild(spanText);
-                finishMassageResult.appendChild(span);
-                let span2 = document.createElement("span");
-                let spanText2 = document.createTextNode("Close .Try Again ");
-                span2.appendChild(spanText2);
-                finishMassageCon.appendChild(span2);
-                finishMassageGot.innerHTML = scoreGot.innerHTML;
-                finishMassageTotal.innerHTML = scoreTotal.innerHTML;
-                finish.style = "display:flex;";
-                game.style = "opacity: 0.3;";
+                    let span = document.createElement("span");
+                    let spanText = document.createTextNode("Good You Can Improve. ");
+                    let span2 = document.createElement("span");
+                    let spanText2 = document.createTextNode("Close .Try Again ");
+                    span.className = "good";
+                    createEndMass(span , spanText , span2 , spanText2 );
                 }
+                shortNotification.play();
             }
         }
-    }, 1000);
+
+
+}, 1000);
+}
+
+function createEndMass(span , spanText , span2 , spanText2 ) {
+    span.appendChild(spanText);
+    finishMassageResult.appendChild(span);
+    span2.appendChild(spanText2);
+    finishMassageCon.appendChild(span2);
+    finishMassageGot.innerHTML = scoreGot.innerHTML;
+    finishMassageTotal.innerHTML = scoreTotal.innerHTML;
+    finish.style = "display:flex;";
+    container.style = gameName.style ="opacity: 0.3;";
+    //  "opacity: 0.3;";?
+}
+
+playAgainBtn.onclick = function (){
+    finish.style = "display:none;";
+    container.style = gameName.style ="opacity: 1;";    
+    // empty finishMassage
+    finishMassageResult.innerHTML = "";
+    finishMassageCon.innerHTML = "";
+    //Empty Input Field
+    input.value = "";
+    // Start again
+    input.focus();
+    // Generate Word Function
+    genWords();
 }

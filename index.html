@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="It's Typing Speed Test Game 💙">
         <title>Diamond Speed Test Game</title>
         <link rel="stylesheet" href="./css/main.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,10 +15,20 @@
             <header class="name">
                 <h1>Diamond Speed Text Game</h1>
                 <p>It's Typing Speed Test Game 💙</p>
-            </header>
+            </header>    
             <section class="container">
                 <div class="massage">
-                    You Are playing On <span class="lvl"></span> Level & You Have <span class="seconds"></span> Seconds To Type The Word
+                    You Are playing On 
+                    <span class="lvls">
+                        <select name="select-lvl" id="select-lvl">
+                            <option value="Easy">Easy</option>
+                            <option value="Normal" selected>Normal</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </span>
+                    Level & You Have 
+                    <span class="seconds"></span>
+                    Seconds To Type The Word
                 </div>
                 <button class="start" >Start playing</button>
                 <div class="the-word"></div>
@@ -32,19 +41,18 @@
                     <div class="score">Score : <span class="got">0</span> From <span class="total"></span></div>
                 </div>
             </section>
+            <div class="finish">
+                <p>
+                    <span class="result"> </span>
+                    <br>You've got <span class="got">0</span> From <span class="total"></span> Words
+                    <br>And It's Really <span class="con-mss"></span>
+                </p>
+                <button class="play-again" >Play Again</button>
+            </div>
             <footer role="contentinfo" class="attribution">
                 <p>Coded by <a id="My-name" href="https://www.facebook.com/ahmed3zzeldeen" target="_blank">Ahmed M. Ezzeldeen</a></p>
             </footer>
         </main>
-        <div class="finish">
-            <p>
-                <span class="result"> </span>
-                <br>You've got <span class="got">0</span> From <span class="total"></span> Words
-                <br>And It's Really <span class="con-mss"></span>
-            </p>
-            <a href="index.html">Play Again</a>
-        </div>
-
         <script src="./js/main.js"></script>
     </body>
 </html>

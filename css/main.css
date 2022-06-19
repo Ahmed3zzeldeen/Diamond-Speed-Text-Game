@@ -4,6 +4,21 @@
     --btn-color: #FF9900;
 }
 
+::selection {
+    background-color: #1a1a1a63;
+    color: #eee;
+}
+
+::-webkit-scrollbar {
+    background-color: #eee;
+    width: 1em;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--main-color);
+    box-shadow: 0px 0px 25px 25px var(--main-color);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -23,7 +38,6 @@ body {
 .container {
     margin: auto;
     max-width: 900px;
-    min-height: 100vh;
 }
 
 .name {
@@ -59,6 +73,14 @@ body {
     content: " ]";
 }
 
+#select-lvl {
+    color: var(--mainColor);
+    border: none;
+    font-size: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 .start {
     display: block;
     width: 100%;
@@ -76,7 +98,6 @@ body {
 
 .start:hover {
     background-image: linear-gradient(170deg ,#9536a6,#DD19BB);
-
 }
 
 .the-word {
@@ -143,20 +164,46 @@ body {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    position: absolute;
     background-color: #fff;
-    border: 5px solid var(--sec-color);
     color: var(--main-color);
-    width: 60%;
-    min-width: 420px;
-    top: 25%;
-    left: 20%;
+    border: 5px solid var(--sec-color);
+    border-radius: 15px;
+    width: 80%;
+    max-width: 590px;
+    margin: auto;
     padding: 15px;
+    transform: translate(0 , -50vh);
     text-align: center;
-    font-size: 35px;
+    font-size: 2rem;
     font-weight: bold;
+}
+
+@media (max-width: 320px) {
+
+    .finish {
+        font-size:1.4rem;
+    }
+    
+    .finish p {
+        line-height: 10px;
+    }
     
 }
+@media (min-width: 768px) {
+
+    .finish {
+        width: 600px;
+        /* top: 25%; */
+        /* left: 10%; */
+    
+    }
+    
+    .finish p {
+        line-height: 10px;
+    }
+    
+}
+
 
 .finish p {
     line-height: 50px;
@@ -186,18 +233,21 @@ body {
 
 }
 
-.finish a {
+.finish .play-again {
     color: #800796;
+    background-color: #ffff;
     width: max-content;
+    font-size: 2rem;
     padding: 15px;
     margin: 15px;
     border: 3px solid;
-    border-radius: 50px;
+    border-radius: 15px;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.finish a:hover,
-.finish a:focus {
+.finish .play-again:hover,
+.finish .play-again:focus {
     background-image: linear-gradient(170deg ,#9536a6,#800796);
     color: #fff;
     border-color:none;
